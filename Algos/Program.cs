@@ -13,7 +13,7 @@
             //ImmutableListExercise();
             //AbbreviateExercise();
             //ListImmutabilityExercise();
-            RankedWordsExercise();
+            //RankedWordsExercise();
 
             ;
 
@@ -128,22 +128,27 @@
         {
             var allLaps = ImmutableList.Create<double>(31.0, 20.9, 21.1, 21.3);
 
-            var lapTime = TotalTime(allLaps);
-            var avgLapTime = AverageTime(allLaps);
+            var lapTime = TotalTime(allLaps, RemoveFirstLap);
+            var avgLapTime = AverageTime(allLaps, RemoveFirstLap);
 
             Console.WriteLine(Math.Round(lapTime, 2));
             Console.WriteLine(Math.Round(avgLapTime, 2));
         }
 
-        static double TotalTime(ImmutableList<double> lapTimes)
+        static double TotalTime(
+            ImmutableList<double> lapTimes, 
+            Func<ImmutableList<double>, ImmutableList<double>> removeFirstLap)
         { 
-            return RemoveFirstLap(lapTimes).Sum();
+            return removeFirstLap(lapTimes).Sum();
         }
 
-        static double AverageTime(ImmutableList<double> lapTimes)
+        static double AverageTime(
+            ImmutableList<double> lapTimes, 
+            Func<ImmutableList<double>, ImmutableList<double>> removeFirstLap)
         {
-            return RemoveFirstLap(lapTimes).Average();
+            return removeFirstLap(lapTimes).Average();
         }
+
         private static ImmutableList<double> RemoveFirstLap(ImmutableList<double> lapTimes)
         {
             return lapTimes.RemoveAt(0);
