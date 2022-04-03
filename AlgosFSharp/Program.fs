@@ -1,6 +1,4 @@
-﻿// For more information see https://aka.ms/fsharp-console-apps
-
-let calculateWordScore (word: string) =
+﻿let calculateWordScore (word: string) =
     word.Replace("a", "").Length;
 
 let calculateBonus (word: string) =

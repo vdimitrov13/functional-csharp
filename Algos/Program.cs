@@ -13,7 +13,7 @@
             //ImmutableListExercise();
             //AbbreviateExercise();
             //ListImmutabilityExercise();
-            //RankedWordsExercise();
+            RankedWordsExercise();
 
             ;
 
@@ -43,26 +43,16 @@
 
         }
 
-        private static ImmutableList<string> RankWordsByScore(ImmutableList<string> words, Func<string, int> scoreCalculator)
-        {
-            var rankedWords = words.OrderByDescending(x => scoreCalculator(x)).ToImmutableList();
-            return rankedWords;
-        }
+        private static ImmutableList<string> RankWordsByScore(
+            ImmutableList<string> words, 
+            Func<string, int> scoreCalculator) => words.OrderByDescending(x => scoreCalculator(x)).ToImmutableList();
 
-        private static int CalculateWordPenalty(string word)
-        {
-            return word.Contains('s') ? -7 : 0;
-        }
+        private static int CalculateWordPenalty(string word) => word.Contains('s') ? -7 : 0;
 
-        private static int CalculateWordBonus(string word)
-        {
-            return word.Contains('c') ? 5 : 0;
-        }
+        private static int CalculateWordBonus(string word)  => word.Contains('c') ? 5 : 0;
 
-        private static int CalculateWordScore(string word)
-        {
-            return word.Replace("a", "").Length;
-        }
+        private static int CalculateWordScore(string word) => word.Replace("a", "").Length;
+
 
         private static void ListImmutabilityExercise()
         {
