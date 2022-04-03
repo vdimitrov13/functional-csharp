@@ -7,5 +7,5 @@ let calculateBonus (word: string) =
 let calculatePenalty (word: string) =
     if word.Contains('s') then 7 else 0
 
-let rankWordsByScore(words : string[], sortingFunction) = 
+let rankWordsByScore(words : string[], sortingFunction : string -> int) = 
      Array.sortByDescending(fun (x :string) -> sortingFunction(x)) words
