@@ -39,9 +39,14 @@
                 CalculateWordScore(x) + 
                 CalculateWordBonus(x) + 
                 CalculateWordPenalty(x));
+
+            var rankedWordsScores = GetWordScores(words, CalculateWordScore);
             ;
 
         }
+        private static ImmutableList<int> GetWordScores(
+            ImmutableList<string> words,
+            Func<string, int> scoreCalculator) => words.Select(x => scoreCalculator(x)).ToImmutableList();
 
         private static ImmutableList<string> RankWordsByScore(
             ImmutableList<string> words, 
