@@ -26,11 +26,30 @@ let rankWordsByScore(words : string[], scoringFunction : string -> int) : string
 let getWordScores(words : string[], scoringFunction : string -> int) : int[] = 
     Array.map(fun (x :string) -> scoringFunction(x)) words
 
-let highScoringWords(words : string[], scoringFunction : string -> int) : int -> string[] = 
-    fun (higherThan : int) -> Array.filter(fun (x: string) -> scoringFunction(x) > higherThan) words
+
+let highScoringWords(calculateScore : string -> int) : int -> string[] -> string[] = 
+    fun (higherThan) -> 
+    fun (words) -> 
+    Array.filter(fun (x: string) -> calculateScore(x) > higherThan) words
+
+let highScoringWordsAnotherSyntax(calculateScore : string -> int)(higherThan: int)(words: string[] : string[]) = 
+    Array.filter(fun (x: string) -> calculateScore(x) > higherThan) words
 
 
-let asd : int -> string[] = highScoringWords([|"ada";"hassskell";"scala"; "java";"rust"|], fun (x : string) -> calculateWordScore(x) + calculateBonus(x) - calculatePenalty(x));;
+
+let higherThanSome(numbers : int[]) : int -> int [] = 
+    fun(higherThan : int) -> Array.filter(fun (x: int) -> (x > higherThan)) numbers
+
+let divisibleBySome(numbers : int[]) : int -> int [] = 
+    fun(divideBy : int) -> Array.filter(fun (x: int) -> (x % divideBy = 0)) numbers
+
+let shorterThanSome(words : string[]) : int -> string[] =
+    fun(shorterThan : int) -> Array.filter(fun (x : string) -> (x.Length < shorterThan)) words
+
+let haveMoreSThanSome(words : string[], numberOfSInWord : string -> int) : int -> string[] =
+    fun(numberOfS : int) -> Array.filter(fun (x : string) -> (numberOfSInWord(x) > numberOfS)) words
+
+
 
 
 let filterWords(words : string[], filteringFunction) : string[]= 
