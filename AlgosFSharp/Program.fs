@@ -11,6 +11,48 @@ let sortWordsByLength (word: string) : int =
     word.Length
 
 
+//Classes
+type Book(title: string, authors : string[]) =
+    member this.title = title
+    member this.authors = authors
+
+type Movie(title: string) =
+    member this.title = title
+
+let bookAdaptations(author : string) =
+    if author = "Tolkien" then [|Movie("An Unexpected Journey"); Movie("The Desolation of Smaug")|] else Array.empty 
+
+let recommendedBooks(friend: string): Book[] = 
+    let scala = [|Book("FP in Scala", [|"Chiusano"; "Bjarnason"|]); Book("Get Programming with Scala", [|"Sfregola"|])|]
+    let fiction = [|Book("Harry Potter", [|"Rowling"|]); Book("The Lord of the Rings", [|"Tolkien"|])|]
+    if friend = "Alice" then scala elif friend = "Bob" then fiction else Array.empty
+
+
+let friends = [|"Alice"; "Bob"; "Charlie"|]
+let recommendations = 
+    friends
+    |> Array.collect(fun friend -> recommendedBooks(friend))
+    |> Array.collect(fun b -> b.authors)
+
+let books = [|Book("FP in Scala", [|"Chiusano"; "Bjarnason"|]); Book("The Hobbit", [|"Tolkien"|])|];;
+
+let movieTitlesByAdaptation = 
+    fun books -> Array.collect(fun (book : Book) -> book.authors) books
+    >> fun authors -> Array.collect(fun (author : string) -> bookAdaptations(author)) authors
+    >> fun movies -> Array.map(fun (movie : Movie) -> $"You may like {movie.title} because you liked ") movies
+
+let recommendationFeed (books : Book[]) =
+    Array.collect(
+        fun (book : Book) -> 
+            Array.collect(
+                fun (author : string) -> 
+                    Array.map(fun (movie : Movie) -> $"You may like {movie.title} because you liked {book.title} from {author}")(bookAdaptations(author))) book.authors) 
+        books
+
+//let evens books =
+//    seq { for book in 1 .. books do book.Equals(1) then yield x }
+//printf "%A" (evens 10)
+
 //Map
 let getLengthsOfStrings (strings: string[], getLength : string -> int) : int[] =
     Array.map(fun (x :string) ->  getLength(x)) strings
