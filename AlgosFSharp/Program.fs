@@ -49,6 +49,7 @@ let recommendationFeed (books : Book[]) =
                     Array.map(fun (movie : Movie) -> $"You may like {movie.title} because you liked {book.title} from {author}")(bookAdaptations(author))) book.authors) 
         books
 
+        //For Comprehension
 let recommendationFeedComprehension (books : Book[]) = [ 
     for book in books do
         for author in book.authors do
@@ -56,9 +57,42 @@ let recommendationFeedComprehension (books : Book[]) = [
                 yield $"You may like {movie.title} because you liked {book.title} from {author}" 
     ];;
 
-//let evens books =
-//    seq { for book in 1 .. books do book.Equals(1) then yield x }
-//printf "%A" (evens 10)
+type Point(x: int, y : int) =
+    member this.x = x
+    member this.y = y
+
+type Point3D(x: int, y : int, z: int) =
+    member this.x = x
+    member this.y = y
+    member this.z = z
+
+let pointLocation (xs,ys) = [
+    for x in xs do
+        for y in ys do
+            yield Point(x,y)
+    ];;
+
+let point3DLocation (xs,ys,zs) = [
+    for x in xs do
+        for y in ys do
+            for z in zs do
+                yield Point3D(x,y,z)
+    ];;
+
+let isInside(point : Point, radius : int) =
+    radius * radius >= point.x * point.x + point.y * point.y
+
+let pointFilter (point: Point, r:int) : Point[] =
+    if(isInside(point,r)) then [|point|] else [||]
+
+let pointsInRadius(radiuses : int[], points : Point[]) = [
+    for radius in radiuses do
+        for point in points do
+            for s in pointFilter(point, radius) do
+                yield $"Point({s.x}, {s.y}) is within a radius of {radius}"
+    ];;
+
+//Classes
 
 //Map
 let getLengthsOfStrings (strings: string[], getLength : string -> int) : int[] =
