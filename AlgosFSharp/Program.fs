@@ -49,6 +49,13 @@ let recommendationFeed (books : Book[]) =
                     Array.map(fun (movie : Movie) -> $"You may like {movie.title} because you liked {book.title} from {author}")(bookAdaptations(author))) book.authors) 
         books
 
+let recommendationFeedComprehension (books : Book[]) = [ 
+    for book in books do
+        for author in book.authors do
+            for movie in bookAdaptations(author) do
+                yield $"You may like {movie.title} because you liked {book.title} from {author}" 
+    ];;
+
 //let evens books =
 //    seq { for book in 1 .. books do book.Equals(1) then yield x }
 //printf "%A" (evens 10)
