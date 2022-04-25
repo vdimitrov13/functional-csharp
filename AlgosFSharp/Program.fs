@@ -1,4 +1,4 @@
-﻿let calculateWordScore (word: string) : int =
+let calculateWordScore (word: string) : int =
     word.Replace("a", "").Length
 
 let calculateBonus (word: string) : int =
@@ -91,6 +91,56 @@ let pointsInRadius(radiuses : int[], points : Point[]) = [
             for s in pointFilter(point, radius) do
                 yield $"Point({s.x}, {s.y}) is within a radius of {radius}"
     ];;
+
+
+//Error Handling
+type TVShow(title: string, startYear : int, endYear: int) =
+    member this.title = title
+    member this.startYear = startYear
+    member this.endYear = endYear
+
+let shows = [| TVShow("Breaking Bad", 2008, 2013); TVShow("The Wire", 2002, 2008); TVShow("Mad Men", 2007, 2015)|];;
+let rawShows = [| "Breaking Bad (2008-2013)"; "The Wire, (2002-2008)"; "Mad Men, (2007-2015)"|];;
+
+let sortShows(shows : TVShow[]) : TVShow[] =
+    Array.sortByDescending(fun (x) ->  x.endYear - x.startYear) shows
+
+let extractStartYear (rawShow : string) : Option<int> =
+    let bracketOpen = rawShow.IndexOf('(')
+    let dash = rawShow.IndexOf('-')
+
+    if(bracketOpen <> -1 && dash > bracketOpen + 1) then Some(rawShow.Substring(bracketOpen + 1, 4) |> int)
+    else None
+
+let extractName (rawShow : string) : Option<string> =
+    let bracketOpen = rawShow.IndexOf('(')
+    if bracketOpen > 0 then Some(rawShow.Substring(0, bracketOpen).Trim())
+    else None
+
+let extractEndYear (rawShow : string) : Option<int> =
+    let bracketClose = rawShow.IndexOf('(')
+    let dash = rawShow.IndexOf('-')
+
+    if(dash <> -1 && bracketClose > dash + 1) then Some(rawShow.Substring(dash + 1, 4) |> int)
+    else None
+
+
+
+let parseShow(show : string) : Option<TVShow> =
+    let name = extractName show
+    let endYear = extractEndYear show
+    let startYEar = extractStartYear show
+    match name && endYear && startYEar with
+    | Some -> TVShow(name,startYEar, endYear)
+    | None
+
+    
+let parseShows(rawShows : string[]) : TVShow[] =
+    //Array.map(fun show -> parseShow(show)) rawShows
+    null
+//Error Handling
+
+
 
 //Classes
 
